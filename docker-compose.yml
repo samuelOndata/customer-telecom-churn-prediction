@@ -1,0 +1,39 @@
+
+services:
+  app:
+    build: ./app
+    container_name: churn_app
+    env_file:
+      - .env
+    environment:
+      PIPELINE_PATH: /models/churn_pipeline.pkl
+      DB_HOST: db
+      DB_PORT: 5432
+    ports:
+      - "8501:8501"
+    depends_on:
+      - db
+    volumes:
+      - ./model:/models:ro
+
+
+  db:
+    image: postgres:16
+    container_name: churn_db
+    env_file:
+      - .env
+    environment:
+      PIPELINE_PATH: /models/churn_pipeline.pkl
+      DB_HOST: db
+      DB_PORT: 5432
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata:
