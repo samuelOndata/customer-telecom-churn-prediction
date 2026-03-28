@@ -86,9 +86,9 @@ The `.env` should look like this:
 
 ```env
 # PostgreSQL
-DB_NAME=churn_db
-DB_USER=postgres
-DB_PASSWORD=postgres
+DB_NAME=your_db_name
+DB_USER=your_postgres_user
+DB_PASSWORD=your_postgres_password
 ```
 
 > ⚠️ Never commit `.env` file. It is already listed in `.gitignore`.
